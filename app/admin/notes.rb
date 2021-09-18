@@ -13,8 +13,19 @@ ActiveAdmin.register Note do
   show title: "Your Notes" do
     h1 link_to note.title, admin_note_path
     h4 link_to note.subject.name, admin_subject_path(note.subject)
-    div (class:'note-body') do
+    div(class: "note-body") do
       raw note.body
+    end
+  end
+
+  index do
+    selectable_column
+    column :subject
+    column "Title" do |note|
+      link_to note.title, admin_note_path(note)
+    end
+    column "Body" do |note|
+      raw note.body.truncate_words(5)
     end
   end
 
@@ -32,5 +43,4 @@ ActiveAdmin.register Note do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-
 end
